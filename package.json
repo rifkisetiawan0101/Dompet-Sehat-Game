@@ -1,0 +1,10 @@
+{
+    "name": "dompet-sehat",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "concurrently \"npm run server --prefix backend\" \"npm start --prefix frontend\""
+    },
+    "devDependencies": {
+        "concurrently": "^7.6.0"
+    }
+}
