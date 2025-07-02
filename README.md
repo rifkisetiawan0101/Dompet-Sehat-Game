@@ -1,5 +1,7 @@
 # 💸 Dompet Sehat (Healthy Wallet) Game 💸
 
+<img src="https://komarev.com/ghpvc/?username=rifkisetiawan0101-dompet-sehat&label=Project%20Views&color=FFB238&style=flat" alt="Project Views"/>
+
 ## 🎮 Demo
 
 You can play the game live here: [**Dompet Sehat Game Demo**](https://dompet-sehat-game.vercel.app/)
