@@ -37,8 +37,8 @@ This project is built with the MERN stack and deployed on modern hosting platfor
 ## 📸 Screenshots
 
 **Intro Screen**
-*(Add a screenshot of your intro screen here)*
-`![Intro Screen](path/to/your/intro_screenshot.png)`
+
+![Intro](intro_screenshot.jpeg)
 
 **Gameplay**
 *(Add a screenshot of the main gameplay here)*
@@ -50,11 +50,11 @@ This project is built with the MERN stack and deployed on modern hosting platfor
 
 ## 📄 License
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+This project is licensed under the Apache 2.0 License. See [LICENSE](LICENSE) for details.
 
 ## 🙏 Credits
 
-* **Rifki Setiawan** – 👨‍💻 Full Stack Developer & Game Designer ([GitHub](https://github.com/rifkisetiawan0101))
+**Rifki Setiawan** 👨‍💻 Full Stack Developer & Game Designer ([GitHub](https://github.com/rifkisetiawan0101))
 
 ---
 Thanks for checking out the project! ✨
