@@ -1,8 +1,13 @@
 import React from 'react';
 
-const EndScreen = ({ message }) => {
+import { 
+    playClickSfx,
+} from '../AudioManager';
+
+const EndScreen = ({ message, onChoiceMouseEnter }) => {
     // Fungsi untuk me-reload halaman dan memulai game baru
     const restartGame = () => {
+        playClickSfx();
         window.location.reload();
     };
 
@@ -12,8 +17,12 @@ const EndScreen = ({ message }) => {
             {/* Tampilkan emoji dan pesan dari state */}
             <p style={{ fontSize: '48px', margin: '2rem 0' }}>{message.emoji}</p>
             <p>{message.text}</p>
-            <button className="start-button" onClick={restartGame}>
-                Main Lagi
+            <button 
+                className="start-button" 
+                onClick={restartGame} 
+                onMouseEnter={onChoiceMouseEnter}
+            >
+                Mulai
             </button>
         </div>
     );

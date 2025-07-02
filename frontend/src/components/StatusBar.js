@@ -6,12 +6,15 @@ const StatusItem = ({ label, value, change }) => {
     const changeClass = change > 0 ? 'stat-increase' : 'stat-decrease';
     const formattedChange = (change > 0 ? '+ ' : '') + new Intl.NumberFormat('id-ID').format(change);
 
+    const itemClasses = `status-item ${hasChange ? 'preview-active' : ''}`;
+
     return (
-        <div className="status-item">
-            <span className="status-label">{label}</span>
-            <span className="status-value">{value}</span>
-            
-            <div className={hasChange ? "status-change-preview active" : "status-change-preview"}>
+        <div className={itemClasses}>
+            <div className="status-content">
+                    <span className="status-label">{label}</span>
+                    <span className="status-value">{value}</span>
+            </div>
+            <div className="status-change-preview">
                 <span className={changeClass}>
                     {hasChange && formattedChange}
                 </span>
@@ -30,7 +33,6 @@ const StatusBar = ({ stats, hoveredChoice }) => {
         }).format(value);
     };
 
-    // Fungsi pembantu untuk mendapatkan nilai perubahan untuk setiap status
     const getChange = (statKey) => hoveredChoice ? hoveredChoice[statKey] || 0 : 0;
 
     return (

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const IntroScreen = ({ onStartGame }) => {
+const IntroScreen = ({ onStartGame, onChoiceMouseEnter}) => {
     return (
         <div className="intro-screen">
             <h1>Dompet Sehat</h1>
@@ -18,7 +18,11 @@ const IntroScreen = ({ onStartGame }) => {
             </p>
 
             <div className="choices-container">
-                <button className="choice-button" onClick={onStartGame}>
+                <button 
+                    className="choice-button" 
+                    onClick={onStartGame} 
+                    onMouseEnter={onChoiceMouseEnter}
+                >
                     Mulai
                 </button>
             </div>

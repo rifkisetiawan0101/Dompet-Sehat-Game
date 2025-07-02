@@ -3,6 +3,14 @@ import axios from 'axios';
 import GameContainer from './components/GameContainer';
 import './App.css';
 
+import { 
+  startMusic, 
+  stopMusic, 
+  playClickSfx, 
+  playHoverSfx, 
+  playEndingSfx
+} from './AudioManager';
+
 const API_URL = 'http://localhost:5000/api/events';
 
 // Helper function to determine the end game route
@@ -12,32 +20,32 @@ const determineEndGame = (stats) => {
 
   // Abnormal Endings (Highest Priority)
   if (happiness <= 0) 
-    return { emoji: '💔', text: 'Rute Gangguan Mental: Kamu tidak bisa melanjutkan karena kebahagiaanmu habis.' };
+    return { emoji: '💔', text: 'Rute Gangguan Mental: Kamu tidak bisa melanjutkan karena kebahagiaanmu habis.', sfxKey: 'mental' };
   if (health <= 0) 
-    return { emoji: '💀', text: 'Rute Kematian: Kamu tidak bisa melanjutkan karena kesehatanmu habis.' };
+    return { emoji: '💀', text: 'Rute Kematian: Kamu tidak bisa melanjutkan karena kesehatanmu habis.', sfxKey: 'death' };
 
   // Normal Endings (Priority Order)
   if (bills > 0) 
-    return { emoji: '🧾', text: 'Rute Nunggak Tagihan: Kamu berhasil bertahan, tapi masih ada tagihan yang belum lunas.' };
+    return { emoji: '🧾', text: 'Rute Nunggak Tagihan: Kamu berhasil bertahan, tapi masih ada tagihan yang belum lunas.', sfxKey: 'bills' };
   if (totalAssets <= 0) 
-    return { emoji: '💸', text: 'Rute Kehabisan Uang: Kamu berhasil bertahan, tapi dompetmu kosong melompong.' };
+    return { emoji: '💸', text: 'Rute Kehabisan Uang: Kamu berhasil bertahan, tapi dompetmu kosong melompong.', sfxKey: 'broke' };
   
   // Success Routes
   if (totalAssets >= 1000000 && bills <= 0 && happiness >= 50 && health >= 50) 
-    return { emoji: '🏆', text: 'Rute Sempurna: Selamat! Kamu mengelola keuangan dengan sangat baik dan hidup seimbang.' };
+    return { emoji: '🏆', text: 'Rute Sempurna: Selamat! Kamu mengelola keuangan dengan sangat baik dan hidup seimbang.', sfxKey: 'perfect' };
   if (totalAssets > 0 && bills <= 0 && happiness <= 50 && health <= 50) 
-    return { emoji: '😫', text: 'Rute Berhasil tapi Stres & Sakit: Kamu punya uang, tapi mengorbankan kebahagiaan dan kesehatanmu.' };
+    return { emoji: '😫', text: 'Rute Berhasil tapi Stres & Sakit: Kamu punya uang, tapi mengorbankan kebahagiaan dan kesehatanmu.', sfxKey: 'stress_sick' };
   if (totalAssets > 0 && bills <= 0 && happiness <= 50) 
-    return { emoji: '😟', text: 'Rute Berhasil tapi Stres: Kamu punya uang, tapi hidupmu terasa hampa dan tidak bahagia.' };
+    return { emoji: '😟', text: 'Rute Berhasil tapi Stres: Kamu punya uang, tapi hidupmu terasa hampa dan tidak bahagia.', sfxKey: 'stress' };
   if (totalAssets > 0 && bills <= 0 && health <= 50) 
-    return { emoji: '🤕', text: 'Rute Berhasil tapi Sakit: Kamu punya uang, tapi sering sakit-sakitan karena pola hidup yang buruk.' };
+    return { emoji: '🤕', text: 'Rute Berhasil tapi Sakit: Kamu punya uang, tapi sering sakit-sakitan karena pola hidup yang buruk.', sfxKey: 'sick' };
   
   // Default Success Route
   if (totalAssets > 0 && bills <= 0) 
-    return { emoji: '👍', text: 'Rute Berhasil: Kamu berhasil menyelesaikan bulan ini dengan keuangan yang positif. Kerja bagus!' };
+    return { emoji: '👍', text: 'Rute Berhasil: Kamu berhasil menyelesaikan bulan ini dengan keuangan yang positif. Kerja bagus!', sfxKey: 'success' };
 
   // Default Failure Route
-  return { emoji: '👎', text: 'Rute Kegagalan: Kamu tidak berhasil mengelola keuanganmu bulan ini. Coba lagi!' };
+  return { emoji: '👎', text: 'Rute Kegagalan: Kamu tidak berhasil mengelola keuanganmu bulan ini. Coba lagi!', sfxKey: 'failure' };
 };
 
 
@@ -79,6 +87,9 @@ function App() {
   }, [gameState.unpaidBillEvents, gameState.usedDailyEvents]);
 
   const startGame = () => {
+    playClickSfx();
+    startMusic();
+
     setGameState({
       screen: 'game',
       stats: { day: 1, cash: 3000000, savings: 0, bills: 1100000, happiness: 100, health: 100 },
@@ -91,6 +102,7 @@ function App() {
   };
 
   const handleChoiceMouseEnter = (choice) => {
+    playHoverSfx();
     setGameState(prev => ({ ...prev, hoveredChoice: choice }));
   };
 
@@ -99,6 +111,7 @@ function App() {
   };
 
   const handleChoice = (choice) => {
+    playClickSfx();
     const currentEventId = gameState.currentEvent.eventId;
     
     const newStats = {
@@ -132,21 +145,26 @@ function App() {
     }
 
     // Check for game over conditions
-    if (newStats.day > 29 || newStats.health <= 0 || newStats.happiness <= 0) {
+    if (newStats.day > 28 || newStats.health <= 0 || newStats.happiness <= 0) {
+      stopMusic();
       const endMessage = determineEndGame(newStats);
+      
+      playEndingSfx(endMessage.sfxKey);
+
       setGameState(prev => ({
         ...prev,
         screen: 'end',
         stats: newStats,
         endGameMessage: endMessage,
+        hoveredChoice: null
       }));
     } else {
-      // Continue to next day
       setGameState(prev => ({
         ...prev,
         stats: newStats,
         unpaidBillEvents: nextUnpaidBillEvents,
-        usedDailyEvents: nextUsedDailyEvents, // Simpan daftar event yang sudah digunakan
+        usedDailyEvents: nextUsedDailyEvents,
+        hoveredChoice: null
       }));
       fetchNextEvent(newStats.day);
     }

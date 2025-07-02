@@ -3,7 +3,7 @@ import IntroScreen from './IntroScreen';
 import EventScreen from './EventScreen';
 import EndScreen from './EndScreen';
 
-const MainBox = ({ gameState, onStartGame, onChoice, onChoiceMouseEnter, onChoiceMouseLeave }) => {
+const MainBox = ({ gameState, onStartGame, onChoice, onChoiceMouseEnter, onChoiceMouseLeave, onRestartClick }) => {
     if (!gameState) {
         return null;
     }
@@ -11,7 +11,11 @@ const MainBox = ({ gameState, onStartGame, onChoice, onChoiceMouseEnter, onChoic
     return (
         <div className="main-box">
             {gameState.screen === 'intro' && (
-                <IntroScreen onStartGame={onStartGame} />
+                <IntroScreen 
+                    onStartGame={onStartGame}
+                    onChoiceMouseEnter={onChoiceMouseEnter}
+                    onChoiceMouseLeave={onChoiceMouseLeave}
+                />
             )}
             {gameState.screen === 'game' && (
                 <EventScreen
@@ -22,7 +26,12 @@ const MainBox = ({ gameState, onStartGame, onChoice, onChoiceMouseEnter, onChoic
                 />
             )}
             {gameState.screen === 'end' && (
-                <EndScreen message={gameState.endGameMessage} />
+                <EndScreen 
+                    message={gameState.endGameMessage}
+                    onRestartClick={onRestartClick} 
+                    onChoiceMouseEnter={onChoiceMouseEnter}
+                    onChoiceMouseLeave={onChoiceMouseLeave}
+                />
             )}
         </div>
     );

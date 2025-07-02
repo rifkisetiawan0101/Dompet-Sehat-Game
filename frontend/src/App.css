@@ -67,18 +67,6 @@ body {
   font-weight: 700;
 }
 
-/* Di mobile, item akan tumbuh mengisi ruang kosong, minimal ada 2 item per baris */
-.status-item {
-  background-color: var(--box-bg-color);
-  border: 2px solid var(--box-border-color);
-  padding: 1rem;
-  text-align: center;
-  flex-grow: 1;
-  width: 200px;
-  position: relative;
-  transition: background-color 0.2s;
-}
-
 /* --- GAYA TEKS DAN TOMBOL (SAMA UNTUK SEMUA UKURAN) --- */
 .intro-screen h1, .event-screen h2 {
   color: var(--primary-color);
@@ -142,21 +130,37 @@ body {
 }
 
   /* --- FITUR HOVER dan ANIMASI DI STATUS ITEM --- */
+
+/* Di mobile, item akan tumbuh mengisi ruang kosong, minimal ada 2 item per baris */
+.status-item {
+  background-color: var(--box-bg-color);
+  border: 2px solid var(--box-border-color);
+  padding: 1rem;
+  text-align: center;
+  flex-grow: 1;
+  width: 200px;
+  display: grid;
+  grid-template-rows: 1fr 0rem;
+  transition: grid-template-rows 0.2s ease-in-out;
+}
+
+.status-item.preview-active {
+  grid-template-rows: 1fr 2rem;
+}
+
 .status-change-preview {
   font-size: 18px;
   font-weight: 700;
-  max-height: 0;
   opacity: 0;
-  overflow: hidden;
-  margin-top: 0;
-  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, margin-top 0.5s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Saat kelas .active ditambahkan, pratinjau akan muncul */
-.status-change-preview.active {
-  max-height: 30px;
+.status-item.preview-active .status-change-preview {
   opacity: 1;
-  margin-top: 0.5rem;
 }
 
 .stat-increase {
