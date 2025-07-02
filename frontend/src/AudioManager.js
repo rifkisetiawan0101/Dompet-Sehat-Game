@@ -12,10 +12,9 @@ const sfxClick = createAudio('/audio/90s-game-ui-6-185099.mp3', false, 1);
 const sfxHover = createAudio('/audio/click-21156.mp3', false, 1);
 // https://pixabay.com/sound-effects/click-21156/
 
-
 export const startMusic = () => {
     music.currentTime = 0;
-    music.play().catch(error => console.log("Playback music dicegah oleh browser:", error));
+    music.play();
 };
 
 export const stopMusic = () => {
@@ -25,11 +24,11 @@ export const stopMusic = () => {
 
 // 'cloneNode' agar SFX bisa dimainkan berulang
 export const playClickSfx = () => {
-    sfxClick.cloneNode().play().catch(error => console.log("Playback sfx dicegah oleh browser:", error));
+    sfxClick.cloneNode().play();
 };
 
 export const playHoverSfx = () => {
-    sfxHover.cloneNode().play().catch(error => console.log("Playback sfx dicegah oleh browser:", error));
+    sfxHover.cloneNode().play();
 };
 
 export const playEndingSfx = (sfxKey) => {
@@ -37,5 +36,5 @@ export const playEndingSfx = (sfxKey) => {
     // Buat dan mainkan audio berdasarkan kunci yang diberikan
     const sfxPath = `/audio/ending_${sfxKey}.wav`;
     const sfx = createAudio(sfxPath);
-    sfx.play().catch(error => console.log("Playback sfx dicegah oleh browser:", error));
+    sfx.play();
 };
