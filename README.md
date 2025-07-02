@@ -38,15 +38,15 @@ This project is built with the MERN stack and deployed on modern hosting platfor
 
 **Intro Screen**
 
-![Intro](intro_screenshot.jpeg)
+![Intro](intro_screenshot.png)
 
 **Gameplay**
-*(Add a screenshot of the main gameplay here)*
-`![Gameplay](path/to/your/gameplay_screenshot.png)`
+
+![Gameplay](gameplay_screenshot.png)
 
 **End Screen**
-*(Add a screenshot of one of the end screens here)*
-`![End Screen](path/to/your/endscreen_screenshot.png)`
+
+![End Screen](endscreen_screenshot.png)
 
 ## 📄 License
 
