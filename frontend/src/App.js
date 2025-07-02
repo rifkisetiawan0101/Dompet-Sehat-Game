@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 import GameContainer from './components/GameContainer';
+import Footer from './components/Footer';
 import './App.css';
 
 import { 
@@ -179,6 +180,7 @@ function App() {
         onChoiceMouseEnter={handleChoiceMouseEnter}
         onChoiceMouseLeave={handleChoiceMouseLeave}
       />
+      <Footer />
     </div>
   );
 }

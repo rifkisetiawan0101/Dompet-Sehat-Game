@@ -22,7 +22,7 @@ const EndScreen = ({ message, onChoiceMouseEnter }) => {
                 onClick={restartGame} 
                 onMouseEnter={onChoiceMouseEnter}
             >
-                Mulai
+                Main Lagi
             </button>
         </div>
     );

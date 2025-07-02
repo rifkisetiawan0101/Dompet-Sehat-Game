@@ -171,6 +171,19 @@ body {
   color: var(--red-color);
 }
 
+.footer-credit {
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+
+  text-align: center;
+  font-size: 14px;
+  color: var(--main-text-color);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
 /* --- ATURAN UNTUK LAYAR BESAR (DESKTOP) --- */
 /* Ubah susunan menjadi ke samping */
 @media (min-width: 900px) {
