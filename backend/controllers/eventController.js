@@ -4,12 +4,12 @@ const Event = require('../models/eventModel');
 // @route   GET /api/events/initial
 // @access  Public
 const getInitialEvent = async (req, res) => {
-  const event = await Event.findOne({ eventId: 1 });
-  if (event) {
-    res.json(event);
-  } else {
-    res.status(404).json({ message: 'Initial event not found' });
-  }
+    const event = await Event.findOne({ eventId: 1 });
+    if (event) {
+        res.json(event);
+    } else {
+        res.status(404).json({ message: 'Initial event not found' });
+    }
 };
 
 // @desc    Fetch a random daily event, excluding used ones

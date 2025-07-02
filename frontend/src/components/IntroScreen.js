@@ -16,9 +16,12 @@ const IntroScreen = ({ onStartGame }) => {
             <p>
                 Jaga status <strong>Uang, Tabungan, Kebahagiaan,</strong> dan <strong>Kesehatan</strong> kamu untuk bertahan sebulan!
             </p>
-            <button className="start-button" onClick={onStartGame}>
-                Mulai
-            </button>
+
+            <div className="choices-container">
+                <button className="choice-button" onClick={onStartGame}>
+                    Mulai
+                </button>
+            </div>
         </div>
     );
 };

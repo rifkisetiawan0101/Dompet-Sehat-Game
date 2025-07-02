@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tomorrow:wght@400;700&display=swap');
 
 :root {
   --main-bg-color: #282834;
@@ -6,61 +6,99 @@
   --primary-color: #FFB238;
   --box-bg-color: #2C2C42;
   --box-border-color: #4F4F76;
+  --green-color: #5ddc9c;
+  --red-color: #ff6b6b;
 }
 
 body {
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
-  font-family: 'Press Start 2P', cursive;
+  font-family: 'Tomorrow', sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  font-size: 14px;
+  font-size: 20px;
   line-height: 1.6;
 }
 
-/* Game Container Layout */
+/* --- LAYOUT UTAMA (MOBILE FIRST) --- */
+/* Default untuk mobile: item akan tersusun ke bawah */
 .game-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
   gap: 2rem;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 2rem;
+  padding: 1rem;
+  width: 100%;
 }
 
-/* Main Box (Kiri) */
 .main-box {
   background-color: var(--box-bg-color);
   border: 2px solid var(--box-border-color);
-  padding: 2rem;
+  padding: 2.75rem 2rem;
   width: 100%;
   max-width: 500px;
-  min-height: 400px;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
+  box-sizing: border-box;
 }
 
+/* Di mobile, item status akan membungkus jika tidak cukup tempat */
+.status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+.status-label {
+  font-size: 16px;
+  color: var(--primary-color);
+  margin-bottom: 0.4rem;
+  display: block;
+  font-weight: 700;
+}
+
+/* Di mobile, item akan tumbuh mengisi ruang kosong, minimal ada 2 item per baris */
+.status-item {
+  background-color: var(--box-bg-color);
+  border: 2px solid var(--box-border-color);
+  padding: 1rem;
+  text-align: center;
+  flex-grow: 1;
+  width: 200px;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+/* --- GAYA TEKS DAN TOMBOL (SAMA UNTUK SEMUA UKURAN) --- */
 .intro-screen h1, .event-screen h2 {
   color: var(--primary-color);
   margin-top: 0;
+  font-weight: 700;
 }
 
 .intro-screen p {
-    text-align: left;
-    margin-bottom: 1rem;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.intro-screen .choices-container {
+  margin-top: 2rem;
 }
 
 .naration-dialogue {
   text-align: left;
-  font-size: 16px;
+  font-size: 18px;
   margin: 2rem 0;
-  min-height: 100px;
 }
 
 .choices-container {
@@ -75,10 +113,15 @@ body {
   color: #000;
   padding: 1rem;
   font-family: inherit;
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: 700;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.2s;
   text-transform: uppercase;
+  min-height: 2.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .choice-button:hover, .start-button:hover {
@@ -86,29 +129,57 @@ body {
   transform: translateY(-4px);
 }
 
-
-/* Status Bar (Kanan) */
-.status-bar {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 250px;
-}
-
-.status-item {
-  background-color: var(--box-bg-color);
-  border: 2px solid var(--box-border-color);
-  padding: 1rem;
-  text-align: center;
-}
-
 .status-label {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--primary-color);
   margin-bottom: 0.5rem;
   display: block;
+  font-weight: 700;
 }
 
 .status-value {
-  font-size: 16px;
+  font-size: 20px;
+}
+
+  /* --- FITUR HOVER dan ANIMASI DI STATUS ITEM --- */
+.status-change-preview {
+  font-size: 18px;
+  font-weight: 700;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 0;
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, margin-top 0.5s ease-in-out;
+}
+
+/* Saat kelas .active ditambahkan, pratinjau akan muncul */
+.status-change-preview.active {
+  max-height: 30px;
+  opacity: 1;
+  margin-top: 0.5rem;
+}
+
+.stat-increase {
+  color: var(--green-color);
+}
+
+.stat-decrease {
+  color: var(--red-color);
+}
+
+/* --- ATURAN UNTUK LAYAR BESAR (DESKTOP) --- */
+/* Ubah susunan menjadi ke samping */
+@media (min-width: 900px) {
+  .game-container {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .status-bar {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 220px;
+  }
 }

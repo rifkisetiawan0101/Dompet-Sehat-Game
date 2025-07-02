@@ -11,21 +11,30 @@ const determineEndGame = (stats) => {
   const totalAssets = cash + savings;
 
   // Abnormal Endings (Highest Priority)
-  if (happiness <= 0) return { emoji: '💔', text: 'Rute Gangguan Mental: Kamu tidak bisa melanjutkan karena kebahagiaanmu habis.' };
-  if (health <= 0) return { emoji: '💀', text: 'Rute Kematian: Kamu tidak bisa melanjutkan karena kesehatanmu habis.' };
+  if (happiness <= 0) 
+    return { emoji: '💔', text: 'Rute Gangguan Mental: Kamu tidak bisa melanjutkan karena kebahagiaanmu habis.' };
+  if (health <= 0) 
+    return { emoji: '💀', text: 'Rute Kematian: Kamu tidak bisa melanjutkan karena kesehatanmu habis.' };
 
   // Normal Endings (Priority Order)
-  if (bills > 0) return { emoji: '🧾', text: 'Rute Nunggak Tagihan: Kamu berhasil bertahan, tapi masih ada tagihan yang belum lunas.' };
-  if (totalAssets <= 0) return { emoji: '💸', text: 'Rute Kehabisan Uang: Kamu berhasil bertahan, tapi dompetmu kosong melompong.' };
+  if (bills > 0) 
+    return { emoji: '🧾', text: 'Rute Nunggak Tagihan: Kamu berhasil bertahan, tapi masih ada tagihan yang belum lunas.' };
+  if (totalAssets <= 0) 
+    return { emoji: '💸', text: 'Rute Kehabisan Uang: Kamu berhasil bertahan, tapi dompetmu kosong melompong.' };
   
   // Success Routes
-  if (totalAssets >= 1000000 && bills <= 0 && happiness >= 50 && health >= 50) return { emoji: '🏆', text: 'Rute Sempurna: Selamat! Kamu mengelola keuangan dengan sangat baik dan hidup seimbang.' };
-  if (totalAssets > 0 && bills <= 0 && happiness <= 50 && health <= 50) return { emoji: '😫', text: 'Rute Berhasil tapi Stres & Sakit: Kamu punya uang, tapi mengorbankan kebahagiaan dan kesehatanmu.' };
-  if (totalAssets > 0 && bills <= 0 && happiness <= 50) return { emoji: '😟', text: 'Rute Berhasil tapi Stres: Kamu punya uang, tapi hidupmu terasa hampa dan tidak bahagia.' };
-  if (totalAssets > 0 && bills <= 0 && health <= 50) return { emoji: '🤕', text: 'Rute Berhasil tapi Sakit: Kamu punya uang, tapi sering sakit-sakitan karena pola hidup yang buruk.' };
+  if (totalAssets >= 1000000 && bills <= 0 && happiness >= 50 && health >= 50) 
+    return { emoji: '🏆', text: 'Rute Sempurna: Selamat! Kamu mengelola keuangan dengan sangat baik dan hidup seimbang.' };
+  if (totalAssets > 0 && bills <= 0 && happiness <= 50 && health <= 50) 
+    return { emoji: '😫', text: 'Rute Berhasil tapi Stres & Sakit: Kamu punya uang, tapi mengorbankan kebahagiaan dan kesehatanmu.' };
+  if (totalAssets > 0 && bills <= 0 && happiness <= 50) 
+    return { emoji: '😟', text: 'Rute Berhasil tapi Stres: Kamu punya uang, tapi hidupmu terasa hampa dan tidak bahagia.' };
+  if (totalAssets > 0 && bills <= 0 && health <= 50) 
+    return { emoji: '🤕', text: 'Rute Berhasil tapi Sakit: Kamu punya uang, tapi sering sakit-sakitan karena pola hidup yang buruk.' };
   
   // Default Success Route
-  if (totalAssets > 0 && bills <= 0) return { emoji: '👍', text: 'Rute Berhasil: Kamu berhasil menyelesaikan bulan ini dengan keuangan yang positif. Kerja bagus!' };
+  if (totalAssets > 0 && bills <= 0) 
+    return { emoji: '👍', text: 'Rute Berhasil: Kamu berhasil menyelesaikan bulan ini dengan keuangan yang positif. Kerja bagus!' };
 
   // Default Failure Route
   return { emoji: '👎', text: 'Rute Kegagalan: Kamu tidak berhasil mengelola keuanganmu bulan ini. Coba lagi!' };
@@ -38,8 +47,9 @@ function App() {
     stats: { day: 0, cash: 0, savings: 0, bills: 0, happiness: 100, health: 100 },
     currentEvent: null,
     unpaidBillEvents: [2, 3, 4],
-    usedDailyEvents: [], // State baru untuk menyimpan ID event harian yang sudah digunakan
+    usedDailyEvents: [], // State untuk menyimpan ID event harian yang sudah digunakan
     endGameMessage: { emoji: '', text: '' },
+    hoveredChoice: null,
   });
 
   const fetchNextEvent = useCallback(async (day) => {
@@ -66,7 +76,7 @@ function App() {
     } catch (error) {
       console.error("Failed to fetch event:", error);
     }
-  }, [gameState.unpaidBillEvents, gameState.usedDailyEvents]); // Tambahkan usedDailyEvents sebagai dependency
+  }, [gameState.unpaidBillEvents, gameState.usedDailyEvents]);
 
   const startGame = () => {
     setGameState({
@@ -78,6 +88,14 @@ function App() {
       endGameMessage: { emoji: '', text: '' },
     });
     fetchNextEvent(1);
+  };
+
+  const handleChoiceMouseEnter = (choice) => {
+    setGameState(prev => ({ ...prev, hoveredChoice: choice }));
+  };
+
+  const handleChoiceMouseLeave = () => {
+    setGameState(prev => ({ ...prev, hoveredChoice: null }));
   };
 
   const handleChoice = (choice) => {
@@ -114,7 +132,7 @@ function App() {
     }
 
     // Check for game over conditions
-    if (newStats.day > 28 || newStats.health <= 0 || newStats.happiness <= 0) {
+    if (newStats.day > 29 || newStats.health <= 0 || newStats.happiness <= 0) {
       const endMessage = determineEndGame(newStats);
       setGameState(prev => ({
         ...prev,
@@ -140,6 +158,8 @@ function App() {
         gameState={gameState}
         onStartGame={startGame}
         onChoice={handleChoice}
+        onChoiceMouseEnter={handleChoiceMouseEnter}
+        onChoiceMouseLeave={handleChoiceMouseLeave}
       />
     </div>
   );
