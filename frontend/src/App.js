@@ -11,7 +11,7 @@ import {
   playEndingSfx
 } from './AudioManager';
 
-const API_URL = 'http://localhost:5000/api/events';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/events';
 
 // Helper function to determine the end game route
 const determineEndGame = (stats) => {
